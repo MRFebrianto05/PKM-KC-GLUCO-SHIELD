@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | GLUCO-SHIELD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>body { font-family: 'Poppins', sans-serif; }</style>
+</head>
+<body class="bg-gray-100 pb-20">
+
+    <nav class="bg-white shadow fixed w-full z-50 top-0">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="flex justify-between h-16 items-center">
+                <span class="font-bold text-xl text-gray-800 tracking-tight">GLUCO<span class="text-green-600">-SHIELD</span></span>
+                
+                <div class="flex items-center gap-3">
+                    <a href="profile.html" class="flex items-center gap-2 hover:bg-green-50 p-1 pr-3 rounded-full transition cursor-pointer group border border-transparent hover:border-green-100">
+                        <div class="h-9 w-9 bg-green-600 text-white rounded-full flex items-center justify-center font-bold shadow-sm group-hover:scale-105 transition" id="navAvatar">U</div>
+                        <div class="hidden sm:block text-left">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Halo,</p>
+                            <p class="text-sm font-bold text-gray-700 leading-none truncate max-w-[80px]" id="userNameDisplay">User</p>
+                        </div>
+                    </a>
+                    <button onclick="logout()" class="ml-1 text-gray-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-full transition"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-4 mt-24">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            
+            <div class="bg-white rounded-xl shadow-lg p-5 relative overflow-hidden border-b-4 border-green-500">
+                <h2 class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-2">Gula Hari Ini</h2>
+                <div class="flex justify-between items-end mb-3">
+                    <p class="text-4xl font-bold text-gray-800"><span id="currentIntake">0</span><span class="text-lg text-gray-400 font-medium">g</span></p>
+                    <div class="text-right">
+                        <p class="text-[10px] text-gray-400">Batas</p>
+                        <p class="font-bold text-lg text-gray-600" id="dailyLimit">0g</p>
+                    </div>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                    <div id="progressBar" class="bg-green-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-2 text-right" id="persenText">0% Terpakai</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-5 relative overflow-hidden border-b-4 border-blue-500">
+                <h2 class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-2">Kalori Hari Ini</h2>
+                <div class="flex justify-between items-end mb-3">
+                    <p class="text-4xl font-bold text-gray-800"><span id="currentKal">0</span><span class="text-lg text-gray-400 font-medium">kkal</span></p>
+                    <div class="text-right">
+                        <p class="text-[10px] text-gray-400">Target TDEE</p>
+                        <p class="font-bold text-lg text-gray-600" id="limitKal">0</p>
+                    </div>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                    <div id="progressKal" class="bg-blue-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-2 text-right" id="persenKal">0% Terpakai</p>
+            </div>
+
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white rounded-xl shadow p-6">
+                <h3 class="font-bold text-lg mb-4 text-gray-800">🍽️ Catat Makanan</h3>
+                <div class="flex gap-2 mb-4">
+                    <input type="text" id="searchInput" placeholder="Cari: Nasi, Boba..." class="w-full border p-2 rounded-lg text-sm focus:ring-green-500 focus:border-green-500">
+                    <button onclick="searchFood()" class="bg-green-600 text-white px-4 rounded-lg hover:bg-green-700 text-sm font-bold shadow-md">Cari</button>
+                </div>
+                <div id="searchResult" class="max-h-60 overflow-y-auto space-y-2">
+                    <p class="text-center text-xs text-gray-400 py-4">Hasil pencarian muncul di sini...</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6">
+                <h3 class="font-bold text-lg mb-4 text-gray-800 flex justify-between items-center">
+                    <span>📋 Riwayat Hari Ini</span>
+                    <a href="profile.html" class="text-xs text-green-600 font-bold hover:underline">Lihat Semua &rarr;</a>
+                </h3>
+                <div id="logList" class="space-y-3 max-h-80 overflow-y-auto">
+                    <p class="text-center text-xs text-gray-400 py-4">Belum ada makanan dicatat.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = '/api';
+        const USER_ID = localStorage.getItem('user_id');
+        const USERNAME = localStorage.getItem('username');
+
+        if (!USER_ID) { window.location.href = 'login.html'; }
+        
+        if(USERNAME) {
+            document.getElementById('userNameDisplay').innerText = USERNAME;
+            document.getElementById('navAvatar').innerText = USERNAME.charAt(0).toUpperCase();
+        }
+
+        function logout() { localStorage.clear(); window.location.href = 'login.html'; }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshDashboard();
+            loadTodayLogs();
+        });
+
+        async function refreshDashboard() {
+            try {
+                const res = await fetch(`${API_URL}/dashboard-data`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: USER_ID })
+                });
+                const data = await res.json();
+                
+                // --- UPDATE GULA ---
+                document.getElementById('currentIntake').innerText = data.current_intake;
+                document.getElementById('dailyLimit').innerText = data.limit_user + 'g';
+                document.getElementById('persenText').innerText = data.persentase + ' Terpakai';
+
+                const barGula = document.getElementById('progressBar');
+                let wGula = parseInt(data.persentase);
+                if(wGula > 100) wGula = 100;
+                barGula.style.width = wGula + '%';
+                barGula.className = `h-3 rounded-full transition-all duration-1000 bg-${data.ui_color === 'red' ? 'red-500' : data.ui_color === 'yellow' ? 'yellow-400' : 'green-500'}`;
+
+                // --- UPDATE KALORI (BARU) ---
+                document.getElementById('currentKal').innerText = data.current_kalori;
+                document.getElementById('limitKal').innerText = data.limit_kalori + ' kkal';
+                document.getElementById('persenKal').innerText = data.persentase_kalori + ' Terpakai';
+
+                const barKal = document.getElementById('progressKal');
+                let wKal = parseInt(data.persentase_kalori);
+                if(wKal > 100) wKal = 100;
+                barKal.style.width = wKal + '%';
+                
+                let colorClass = 'bg-blue-500';
+                if(data.color_kalori === 'red') colorClass = 'bg-red-500';
+                else if(data.color_kalori === 'orange') colorClass = 'bg-orange-400';
+                barKal.className = `h-3 rounded-full transition-all duration-1000 ${colorClass}`;
+
+            } catch (err) { console.error(err); }
+        }
+
+        async function searchFood() {
+            const query = document.getElementById('searchInput').value;
+            const res = await fetch(`${API_URL}/search?q=${query}`);
+            const data = await res.json();
+            
+            const list = document.getElementById('searchResult');
+            list.innerHTML = '';
+
+            if(data.results.length === 0) {
+                list.innerHTML = '<p class="text-center text-xs text-red-400">Tidak ditemukan.</p>';
+                return;
+            }
+
+            data.results.forEach(food => {
+                const item = document.createElement('div');
+                item.className = "flex justify-between items-center p-2 border rounded hover:bg-gray-50 transition";
+                item.innerHTML = `
+                    <div>
+                        <p class="font-bold text-sm text-gray-800">${food.name}</p>
+                        <p class="text-[10px] text-gray-500">Gula: ${food.sugar_g}g | Kal: ${food.calories}</p>
+                    </div>
+                    <button onclick="confirmEat('${food.name}', ${food.sugar_g}, ${food.calories})" class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-bold hover:bg-blue-200 transition">+ Makan</button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function confirmEat(name, sugar, cal) {
+            const current = parseFloat(document.getElementById('currentIntake').innerText);
+            const limit = parseFloat(document.getElementById('dailyLimit').innerText);
+            const predicted = current + sugar;
+            
+            let title = "Konfirmasi Makan";
+            let icon = "question";
+            let text = `Anda akan memakan ${name} (${sugar}g gula & ${cal} kkal).`;
+
+            if (predicted > limit) {
+                title = "BAHAYA GULA! 🚨";
+                icon = "error";
+                text = `STOP! Total gula harian akan menjadi ${predicted}g (Melewati Batas!).`;
+            } else if (predicted > (limit * 0.8)) {
+                title = "Hati-Hati ⚠️";
+                icon = "warning";
+                text = `Kuota gula Anda hampir habis.`;
+            }
+
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: icon,
+                showCancelButton: true,
+                confirmButtonColor: icon === 'error' ? '#d33' : '#3085d6',
+                confirmButtonText: 'Ya, Makan!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    saveFoodToLog(name, sugar, cal);
+                }
+            });
+        }
+
+        async function saveFoodToLog(name, sugar, cal) {
+            await fetch(`${API_URL}/log-food`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: USER_ID, food_name: name, sugar_g: sugar, calories: cal })
+            });
+            
+            Swal.fire('Tercatat!', 'Makanan berhasil disimpan.', 'success');
+            refreshDashboard(); 
+            loadTodayLogs();    
+            document.getElementById('searchResult').innerHTML = ''; 
+            document.getElementById('searchInput').value = '';
+        }
+
+        async function loadTodayLogs() {
+            const res = await fetch(`${API_URL}/today-logs?user_id=${USER_ID}`);
+            const data = await res.json();
+            
+            const list = document.getElementById('logList');
+            list.innerHTML = '';
+
+            if(data.results.length === 0) {
+                list.innerHTML = '<p class="text-center text-xs text-gray-400 py-4">Belum ada makanan dicatat.</p>';
+                return;
+            }
+
+            data.results.forEach(log => {
+                const item = document.createElement('div');
+                item.className = "flex justify-between p-2 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition";
+                item.innerHTML = `
+                    <span class="text-sm text-gray-700">${log.food_name}</span>
+                    <div class="text-right">
+                        <span class="block text-xs font-bold text-green-600">${log.sugar_intake}g Gula</span>
+                        <span class="block text-[10px] text-gray-400">${log.calories_intake || 0} Kal</span>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+    </script>
+</body>
+</html>

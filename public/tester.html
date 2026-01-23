@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uji Coba Backend GLUCO-SHIELD</title>
+    <style>
+        body { font-family: sans-serif; padding: 50px; background: #f4f4f4; }
+        .box { background: white; padding: 30px; border-radius: 10px; max-width: 400px; margin: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        button { width: 100%; padding: 10px; background: #2c3e50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #1a252f; }
+        #hasil { margin-top: 20px; padding: 15px; border-radius: 5px; display: none; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <h2 style="text-align: center;">🛡️ Tester EWS</h2>
+        <p style="text-align: center; color: #666; font-size: 14px;">Simulasi Input Makanan</p>
+        
+        <label>ID User (Sesuai Database):</label>
+        <input type="number" id="userId" value="1" placeholder="Masukkan ID User">
+
+        <label>Kandungan Gula (Gram):</label>
+        <input type="number" id="gula" placeholder="Contoh: 35">
+
+        <button onclick="cekBahaya()">⚡ CEK STATUS</button>
+
+        <div id="hasil"></div>
+    </div>
+
+    <script>
+        async function cekBahaya() {
+            const userId = document.getElementById('userId').value;
+            const gula = document.getElementById('gula').value;
+            const divHasil = document.getElementById('hasil');
+
+            if(!gula) { alert("Isi gula dulu!"); return; }
+
+            divHasil.style.display = 'block';
+            divHasil.innerHTML = 'Sedang menghitung...';
+            divHasil.style.backgroundColor = '#ddd';
+
+            try {
+                // Menembak ke Backend Node.js
+                const response = await fetch('http://localhost:3000/api/check-food', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        user_id: userId, 
+                        food_sugar_content: gula 
+                    })
+                });
+
+                const data = await response.json();
+
+                // Menampilkan Respon dari Backend
+                divHasil.style.color = 'white';
+                divHasil.innerHTML = `
+                    <h3 style="margin:0">${data.status_warning || data.status}</h3>
+                    <p style="font-size: 14px; margin-top: 5px;">${data.pesan || data.message}</p>
+                    <hr style="border-color: rgba(255,255,255,0.3);">
+                    <small>Prediksi Total: <b>${data.prediksi_total || data.predicted_total} gram</b></small>
+                `;
+
+                // Ubah Warna Sesuai Logika Backend
+                const warna = data.ui_color || 'gray';
+                if(warna === 'red') divHasil.style.backgroundColor = '#e74c3c'; // Merah Bahaya
+                else if(warna === 'yellow') {
+                    divHasil.style.backgroundColor = '#f1c40f'; // Kuning Warning
+                    divHasil.style.color = 'black';
+                }
+                else divHasil.style.backgroundColor = '#27ae60'; // Hijau Aman
+
+            } catch (error) {
+                divHasil.innerHTML = '❌ Error: Pastikan Server Nyala!';
+                divHasil.style.backgroundColor = 'red';
+            }
+        }
+    </script>
+</body>
+</html>

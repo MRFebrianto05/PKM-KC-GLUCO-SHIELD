@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Saya | GLUCO-SHIELD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Poppins', sans-serif; }</style>
+</head>
+<body class="bg-gray-100 min-h-screen pb-10">
+
+    <div class="bg-white shadow sticky top-0 z-50">
+        <div class="max-w-2xl mx-auto px-4 h-16 flex items-center gap-4">
+            <a href="index.html" class="p-2 rounded-full hover:bg-gray-100 text-gray-600 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+            </a>
+            <h1 class="font-bold text-lg text-gray-800">Profil & Riwayat</h1>
+        </div>
+    </div>
+
+    <div class="max-w-2xl mx-auto px-4 mt-6">
+        
+        <div class="bg-gradient-to-br from-green-600 to-green-500 rounded-2xl shadow-lg p-6 text-white mb-8 relative overflow-hidden">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
+            
+            <div class="flex items-center gap-4 mb-6 relative z-10">
+                <div class="h-16 w-16 bg-white text-green-600 rounded-full flex items-center justify-center text-3xl font-bold shadow-md border-4 border-green-200" id="avatarInitial">
+                    ...
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold capitalize" id="profName">Memuat...</h2>
+                    <p class="text-green-100 text-sm flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        Member Aktif
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-center relative z-10">
+                <div class="bg-white/20 backdrop-blur-sm p-3 rounded-xl">
+                    <p class="text-[10px] text-green-100 uppercase tracking-wide">Berat</p>
+                    <p class="font-bold text-xl"><span id="profBB">-</span> <span class="text-sm font-normal">kg</span></p>
+                </div>
+                <div class="bg-white/20 backdrop-blur-sm p-3 rounded-xl">
+                    <p class="text-[10px] text-green-100 uppercase tracking-wide">Tinggi</p>
+                    <p class="font-bold text-xl"><span id="profTB">-</span> <span class="text-sm font-normal">cm</span></p>
+                </div>
+                <div class="bg-white/20 backdrop-blur-sm p-3 rounded-xl border border-white/30">
+                    <p class="text-[10px] text-green-100 uppercase tracking-wide">Limit Gula</p>
+                    <p class="font-bold text-xl"><span id="profLimit">-</span> <span class="text-sm font-normal">g</span></p>
+                </div>
+                <div class="bg-blue-900/20 backdrop-blur-sm p-3 rounded-xl border border-blue-200/30">
+                    <p class="text-[10px] text-blue-100 uppercase tracking-wide">TDEE (Kalori)</p>
+                    <p class="font-bold text-xl"><span id="profKalori">-</span> <span class="text-sm font-normal">kkal</span></p>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="font-bold text-gray-800 text-lg mb-4 flex items-center gap-2">
+            📅 Jurnal Makanan
+        </h3>
+        
+        <div id="historyContainer" class="space-y-6 pb-20">
+            <div class="animate-pulse flex space-x-4">
+                <div class="flex-1 space-y-4 py-1">
+                    <div class="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const API_URL = '/api';
+        const USER_ID = localStorage.getItem('user_id');
+
+        if (!USER_ID) window.location.href = 'login.html';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfile();
+            loadHistory();
+        });
+
+        // A. Load Data Diri
+        async function loadProfile() {
+            try {
+                const res = await fetch(`${API_URL}/user-profile?user_id=${USER_ID}`);
+                const json = await res.json();
+                
+                if(res.status === 200) {
+                    const data = json.data;
+                    document.getElementById('profName').innerText = data.username;
+                    document.getElementById('profBB').innerText = data.weight;
+                    document.getElementById('profTB').innerText = data.height;
+                    document.getElementById('profLimit').innerText = data.sugar_limit_gram;
+                    
+                    // Tampilkan Limit Kalori (Kalau user lama null, tampilkan default 2000)
+                    document.getElementById('profKalori').innerText = data.calorie_limit || 2000;
+                    
+                    document.getElementById('avatarInitial').innerText = data.username.charAt(0).toUpperCase();
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        // B. Load & Grouping History
+        async function loadHistory() {
+            try {
+                const res = await fetch(`${API_URL}/history-all?user_id=${USER_ID}`);
+                const json = await res.json();
+                const logs = json.results;
+                const container = document.getElementById('historyContainer');
+                
+                container.innerHTML = '';
+
+                if(logs.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-10 opacity-50">
+                            <img src="https://cdn-icons-png.flaticon.com/512/7486/7486747.png" class="w-20 mx-auto mb-3 grayscale">
+                            <p class="text-gray-500">Belum ada riwayat makan.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const grouped = {};
+                const today = new Date().toLocaleDateString('id-ID');
+
+                logs.forEach(log => {
+                    const dateObj = new Date(log.date_log);
+                    const dateKey = dateObj.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+                    
+                    const isToday = dateObj.toLocaleDateString('id-ID') === today;
+                    const displayKey = isToday ? `Hari Ini (${dateKey})` : dateKey;
+
+                    if (!grouped[displayKey]) {
+                        grouped[displayKey] = { items: [], totalGula: 0, totalKal: 0 };
+                    }
+                    grouped[displayKey].items.push(log);
+                    grouped[displayKey].totalGula += log.sugar_intake;
+                    grouped[displayKey].totalKal += (log.calories_intake || 0);
+                });
+
+                // Render HTML
+                Object.keys(grouped).forEach(dateLabel => {
+                    const dayData = grouped[dateLabel];
+                    const isDanger = dayData.totalGula > 50; 
+                    const statusColor = isDanger ? 'text-red-600' : 'text-green-600';
+                    const borderColor = isDanger ? 'border-red-500' : 'border-green-500';
+                    const bgHeader = dateLabel.includes("Hari Ini") ? 'bg-green-50' : 'bg-transparent';
+
+                    let htmlContent = `
+                        <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 ${borderColor} relative">
+                            <div class="flex justify-between items-start mb-4 border-b border-gray-100 pb-3 ${bgHeader} -mx-5 px-5 -mt-5 pt-5 rounded-t-xl">
+                                <div>
+                                    <h4 class="font-bold text-gray-800 capitalize text-lg leading-tight">${dateLabel}</h4>
+                                    <span class="text-xs text-gray-400">${dayData.items.length} kali makan</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="block font-bold ${statusColor} text-lg leading-none mb-1">${dayData.totalGula.toFixed(1)}g Gula</span>
+                                    <span class="block text-xs font-bold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full inline-block">${dayData.totalKal} kkal</span>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-3">
+                    `;
+
+                    dayData.items.forEach(item => {
+                        htmlContent += `
+                            <div class="flex justify-between text-sm items-center hover:bg-gray-50 p-2 rounded-lg transition border-b border-gray-50 last:border-0">
+                                <span class="text-gray-700 font-medium flex items-center gap-3">
+                                    <span class="w-2 h-2 rounded-full ${item.sugar_intake > 20 ? 'bg-red-400' : 'bg-green-400'}"></span>
+                                    ${item.food_name}
+                                </span>
+                                <div class="flex gap-2 text-right">
+                                    <div class="bg-gray-100 px-2 py-1 rounded text-xs text-gray-600 font-bold min-w-[50px] text-center">
+                                        ${item.sugar_intake}g
+                                    </div>
+                                    <div class="bg-blue-50 px-2 py-1 rounded text-xs text-blue-600 font-bold min-w-[60px] text-center">
+                                        ${item.calories_intake || 0} kal
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    htmlContent += `</div></div>`;
+                    container.innerHTML += htmlContent;
+                });
+
+            } catch (e) { console.error(e); }
+        }
+    </script>
+</body>
+</html>
