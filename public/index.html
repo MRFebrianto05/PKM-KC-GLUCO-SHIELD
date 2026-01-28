@@ -5,88 +5,181 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | GLUCO-SHIELD</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>body { font-family: 'Poppins', sans-serif; }</style>
-</head>
-<body class="bg-gray-100 pb-20">
-
-    <nav class="bg-white shadow fixed w-full z-50 top-0">
-        <div class="max-w-4xl mx-auto px-4">
-            <div class="flex justify-between h-16 items-center">
-                <span class="font-bold text-xl text-gray-800 tracking-tight">GLUCO<span class="text-green-600">-SHIELD</span></span>
-                
-                <div class="flex items-center gap-3">
-                    <a href="profile.html" class="flex items-center gap-2 hover:bg-green-50 p-1 pr-3 rounded-full transition cursor-pointer group border border-transparent hover:border-green-100">
-                        <div class="h-9 w-9 bg-green-600 text-white rounded-full flex items-center justify-center font-bold shadow-sm group-hover:scale-105 transition" id="navAvatar">U</div>
-                        <div class="hidden sm:block text-left">
-                            <p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Halo,</p>
-                            <p class="text-sm font-bold text-gray-700 leading-none truncate max-w-[80px]" id="userNameDisplay">User</p>
-                        </div>
-                    </a>
-                    <button onclick="logout()" class="ml-1 text-gray-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-full transition"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg></button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <div class="max-w-4xl mx-auto px-4 mt-24">
+    
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #FAFAFA; } /* Sedikit lebih putih agar buah menyatu */
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        /* Animasi Progress Bar */
+        .progress-bar-glow {
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+        
+        /* Hide Scrollbar tapi tetap bisa scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Animasi Mengambang Halus untuk Background */
+        .float-slow { animation: float 8s ease-in-out infinite; }
+        .float-medium { animation: float 6s ease-in-out infinite; }
+        .float-fast { animation: float 5s ease-in-out infinite; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body class="pb-20 relative">
+
+    <div class="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
+        <img src="https://pngimg.com/d/apple_PNG12405.png" class="absolute -top-10 -left-10 w-48 opacity-20 rotate-12 float-slow" alt="Apple">
+        
+        <img src="https://pngimg.com/d/spinach_PNG10.png" class="absolute -top-20 -right-20 w-80 opacity-15 float-medium" alt="Spinach">
+        
+        <img src="https://pngimg.com/d/orange_PNG780.png" class="absolute bottom-0 -right-10 w-56 opacity-20 -rotate-12 float-slow" alt="Orange">
+
+        <img src="https://pngimg.com/d/avocado_PNG15516.png" class="absolute bottom-20 -left-16 w-40 opacity-15 rotate-45 float-fast" alt="Avocado">
+    </div>
+    <div class="relative bg-gradient-to-br from-emerald-600 via-teal-500 to-cyan-600 h-64 rounded-b-[40px] shadow-xl">
+        
+        <nav class="max-w-5xl mx-auto px-6 pt-6 flex justify-between items-center text-white">
+            <div class="flex items-center gap-2">
+                <div class="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <span class="font-bold text-xl tracking-wide">GLUCO<span class="font-light opacity-80">-SHIELD</span></span>
+            </div>
             
-            <div class="bg-white rounded-xl shadow-lg p-5 relative overflow-hidden border-b-4 border-green-500">
-                <h2 class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-2">Gula Hari Ini</h2>
-                <div class="flex justify-between items-end mb-3">
-                    <p class="text-4xl font-bold text-gray-800"><span id="currentIntake">0</span><span class="text-lg text-gray-400 font-medium">g</span></p>
-                    <div class="text-right">
-                        <p class="text-[10px] text-gray-400">Batas</p>
-                        <p class="font-bold text-lg text-gray-600" id="dailyLimit">0g</p>
+            <div class="flex items-center gap-4">
+                <a href="profile.html" class="flex items-center gap-3 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition backdrop-blur-md cursor-pointer group">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-[10px] opacity-70 uppercase tracking-widest">Halo,</p>
+                        <p class="text-sm font-bold truncate max-w-[100px]" id="userNameDisplay">User</p>
+                    </div>
+                    <div class="h-10 w-10 bg-white text-emerald-600 rounded-full flex items-center justify-center font-bold shadow-lg group-hover:scale-110 transition" id="navAvatar">U</div>
+                </a>
+                <button onclick="logout()" class="bg-red-500/20 hover:bg-red-500 text-white p-3 rounded-full transition backdrop-blur-md shadow-lg" title="Keluar">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div class="max-w-5xl mx-auto px-6 mt-8 text-white">
+            <h1 class="text-3xl font-extrabold mb-1">Jaga Gula, Jaga Nyawa.</h1>
+            <p class="opacity-90 text-sm font-light max-w-md">Pantau asupan nutrisi harianmu secara realtime dengan teknologi Early Warning System.</p>
+        </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-6 -mt-16 relative z-10">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            
+            <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl p-6 relative overflow-hidden group hover:-translate-y-1 transition duration-300 border border-white/50">
+                <div class="absolute right-0 top-0 w-32 h-32 bg-green-50 rounded-bl-[100px] -mr-6 -mt-6 z-0 group-hover:scale-110 transition"></div>
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-green-100 p-3 rounded-2xl text-2xl">🍬</div>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">Batas Harian</p>
+                            <p class="text-lg font-bold text-gray-700" id="dailyLimit">0g</p>
+                        </div>
+                    </div>
+                    
+                    <h2 class="text-4xl font-extrabold text-gray-800 mb-1" id="currentIntake">0<span class="text-lg text-gray-400 font-medium">g</span></h2>
+                    <p class="text-xs text-gray-400 mb-4">Total Gula Terkonsumsi</p>
+
+                    <div class="w-full bg-gray-100 rounded-full h-4 overflow-hidden shadow-inner relative">
+                        <div id="progressBar" class="bg-gradient-to-r from-emerald-400 to-green-500 h-4 rounded-full transition-all duration-1000 progress-bar-glow relative" style="width: 0%">
+                            <div class="absolute top-0 left-0 bottom-0 right-0 bg-white opacity-20 w-full h-full animate-pulse"></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mt-2">
+                        <p class="text-[10px] text-gray-400 font-bold">0%</p>
+                        <p class="text-[10px] font-bold text-emerald-600" id="persenText">Aman</p>
+                        <p class="text-[10px] text-gray-400 font-bold">100%</p>
                     </div>
                 </div>
-                <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
-                    <div id="progressBar" class="bg-green-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
-                </div>
-                <p class="text-[10px] text-gray-400 mt-2 text-right" id="persenText">0% Terpakai</p>
             </div>
 
-            <div class="bg-white rounded-xl shadow-lg p-5 relative overflow-hidden border-b-4 border-blue-500">
-                <h2 class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-2">Kalori Hari Ini</h2>
-                <div class="flex justify-between items-end mb-3">
-                    <p class="text-4xl font-bold text-gray-800"><span id="currentKal">0</span><span class="text-lg text-gray-400 font-medium">kkal</span></p>
-                    <div class="text-right">
-                        <p class="text-[10px] text-gray-400">Target TDEE</p>
-                        <p class="font-bold text-lg text-gray-600" id="limitKal">0</p>
+            <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl p-6 relative overflow-hidden group hover:-translate-y-1 transition duration-300 border border-white/50">
+                <div class="absolute right-0 top-0 w-32 h-32 bg-blue-50 rounded-bl-[100px] -mr-6 -mt-6 z-0 group-hover:scale-110 transition"></div>
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-blue-100 p-3 rounded-2xl text-2xl">🔥</div>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">Target TDEE</p>
+                            <p class="text-lg font-bold text-gray-700" id="limitKal">0</p>
+                        </div>
+                    </div>
+                    
+                    <h2 class="text-4xl font-extrabold text-gray-800 mb-1" id="currentKal">0<span class="text-lg text-gray-400 font-medium">kkal</span></h2>
+                    <p class="text-xs text-gray-400 mb-4">Total Kalori Masuk</p>
+
+                    <div class="w-full bg-gray-100 rounded-full h-4 overflow-hidden shadow-inner relative">
+                        <div id="progressKal" class="bg-gradient-to-r from-blue-400 to-cyan-500 h-4 rounded-full transition-all duration-1000 relative" style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between mt-2">
+                        <p class="text-[10px] text-gray-400 font-bold">0%</p>
+                        <p class="text-[10px] font-bold text-blue-600" id="persenKal">On Track</p>
+                        <p class="text-[10px] text-gray-400 font-bold">100%</p>
                     </div>
                 </div>
-                <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
-                    <div id="progressKal" class="bg-blue-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
-                </div>
-                <p class="text-[10px] text-gray-400 mt-2 text-right" id="persenKal">0% Terpakai</p>
             </div>
-
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white rounded-xl shadow p-6">
-                <h3 class="font-bold text-lg mb-4 text-gray-800">🍽️ Catat Makanan</h3>
-                <div class="flex gap-2 mb-4">
-                    <input type="text" id="searchInput" placeholder="Cari: Nasi, Boba..." class="w-full border p-2 rounded-lg text-sm focus:ring-green-500 focus:border-green-500">
-                    <button onclick="searchFood()" class="bg-green-600 text-white px-4 rounded-lg hover:bg-green-700 text-sm font-bold shadow-md">Cari</button>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <div class="lg:col-span-2 bg-white/95 backdrop-blur-sm rounded-3xl shadow-lg p-6 border border-gray-100">
+                <h3 class="font-bold text-lg mb-1 text-gray-800 flex items-center gap-2">
+                    🍽️ <span class="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500">Catat Makanan</span>
+                </h3>
+                <p class="text-xs text-gray-400 mb-6">Cari makanan yang akan kamu konsumsi hari ini.</p>
+                
+                <div class="flex gap-3 mb-6 relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Ketik: Nasi Goreng, Boba, Apel..." class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition outline-none">
+                    <button onclick="searchFood()" class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transform hover:-translate-y-0.5 transition font-bold text-sm flex items-center gap-2">
+                        Cari
+                    </button>
                 </div>
-                <div id="searchResult" class="max-h-60 overflow-y-auto space-y-2">
-                    <p class="text-center text-xs text-gray-400 py-4">Hasil pencarian muncul di sini...</p>
+
+                <div id="searchResult" class="max-h-60 overflow-y-auto space-y-3 no-scrollbar pr-2">
+                    <div class="text-center py-10 opacity-50 border-2 border-dashed border-gray-200 rounded-xl">
+                        <p class="text-sm text-gray-400">Hasil pencarian akan muncul di sini.</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow p-6">
-                <h3 class="font-bold text-lg mb-4 text-gray-800 flex justify-between items-center">
-                    <span>📋 Riwayat Hari Ini</span>
-                    <a href="profile.html" class="text-xs text-green-600 font-bold hover:underline">Lihat Semua &rarr;</a>
-                </h3>
-                <div id="logList" class="space-y-3 max-h-80 overflow-y-auto">
-                    <p class="text-center text-xs text-gray-400 py-4">Belum ada makanan dicatat.</p>
+            <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-lg p-6 border border-gray-100 h-fit">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-lg text-gray-800">📋 Riwayat</h3>
+                    <a href="profile.html" class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg hover:bg-emerald-100 transition">Lihat Semua</a>
+                </div>
+                
+                <div id="logList" class="space-y-3 max-h-[400px] overflow-y-auto no-scrollbar">
+                    <div class="animate-pulse space-y-3">
+                        <div class="h-12 bg-gray-100 rounded-xl"></div>
+                        <div class="h-12 bg-gray-100 rounded-xl"></div>
+                        <div class="h-12 bg-gray-100 rounded-xl"></div>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -107,6 +200,11 @@
         document.addEventListener('DOMContentLoaded', () => {
             refreshDashboard();
             loadTodayLogs();
+            
+            // Enter key trigger search
+            document.getElementById("searchInput").addEventListener("keypress", function(event) {
+                if (event.key === "Enter") { searchFood(); }
+            });
         });
 
         async function refreshDashboard() {
@@ -127,9 +225,23 @@
                 let wGula = parseInt(data.persentase);
                 if(wGula > 100) wGula = 100;
                 barGula.style.width = wGula + '%';
-                barGula.className = `h-3 rounded-full transition-all duration-1000 bg-${data.ui_color === 'red' ? 'red-500' : data.ui_color === 'yellow' ? 'yellow-400' : 'green-500'}`;
+                
+                // Logic Warna Gradient
+                if(data.ui_color === 'red') {
+                    barGula.className = `bg-gradient-to-r from-red-500 to-red-600 h-4 rounded-full transition-all duration-1000 relative shadow-red-200 shadow-lg`;
+                    document.getElementById('persenText').className = "text-[10px] font-bold text-red-600";
+                    document.getElementById('persenText').innerText = "BAHAYA!";
+                } else if (data.ui_color === 'yellow') {
+                    barGula.className = `bg-gradient-to-r from-yellow-400 to-orange-500 h-4 rounded-full transition-all duration-1000 relative`;
+                    document.getElementById('persenText').className = "text-[10px] font-bold text-orange-500";
+                    document.getElementById('persenText').innerText = "Waspada";
+                } else {
+                    barGula.className = `bg-gradient-to-r from-emerald-400 to-green-500 h-4 rounded-full transition-all duration-1000 relative progress-bar-glow`;
+                    document.getElementById('persenText').className = "text-[10px] font-bold text-emerald-600";
+                    document.getElementById('persenText').innerText = "Aman";
+                }
 
-                // --- UPDATE KALORI (BARU) ---
+                // --- UPDATE KALORI ---
                 document.getElementById('currentKal').innerText = data.current_kalori;
                 document.getElementById('limitKal').innerText = data.limit_kalori + ' kkal';
                 document.getElementById('persenKal').innerText = data.persentase_kalori + ' Terpakai';
@@ -139,16 +251,19 @@
                 if(wKal > 100) wKal = 100;
                 barKal.style.width = wKal + '%';
                 
-                let colorClass = 'bg-blue-500';
-                if(data.color_kalori === 'red') colorClass = 'bg-red-500';
-                else if(data.color_kalori === 'orange') colorClass = 'bg-orange-400';
-                barKal.className = `h-3 rounded-full transition-all duration-1000 ${colorClass}`;
+                let kalClass = 'from-blue-400 to-cyan-500';
+                if(data.color_kalori === 'red') kalClass = 'from-red-500 to-pink-600';
+                else if(data.color_kalori === 'orange') kalClass = 'from-orange-400 to-orange-600';
+                
+                barKal.className = `bg-gradient-to-r ${kalClass} h-4 rounded-full transition-all duration-1000 relative`;
 
             } catch (err) { console.error(err); }
         }
 
         async function searchFood() {
             const query = document.getElementById('searchInput').value;
+            if(!query) return;
+
             const res = await fetch(`${API_URL}/search?q=${query}`);
             const data = await res.json();
             
@@ -156,19 +271,22 @@
             list.innerHTML = '';
 
             if(data.results.length === 0) {
-                list.innerHTML = '<p class="text-center text-xs text-red-400">Tidak ditemukan.</p>';
+                list.innerHTML = '<div class="text-center py-4 bg-red-50 rounded-xl border border-red-100"><p class="text-xs text-red-500 font-bold">Makanan tidak ditemukan :(</p></div>';
                 return;
             }
 
             data.results.forEach(food => {
                 const item = document.createElement('div');
-                item.className = "flex justify-between items-center p-2 border rounded hover:bg-gray-50 transition";
+                item.className = "flex justify-between items-center p-3 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition hover:border-emerald-100 group";
                 item.innerHTML = `
                     <div>
-                        <p class="font-bold text-sm text-gray-800">${food.name}</p>
-                        <p class="text-[10px] text-gray-500">Gula: ${food.sugar_g}g | Kal: ${food.calories}</p>
+                        <p class="font-bold text-sm text-gray-800 group-hover:text-emerald-700 transition">${food.name}</p>
+                        <div class="flex gap-2 mt-1">
+                            <span class="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-bold">🍬 ${food.sugar_g}g</span>
+                            <span class="text-[10px] bg-blue-50 text-blue-500 px-2 py-0.5 rounded-full font-bold">🔥 ${food.calories}</span>
+                        </div>
                     </div>
-                    <button onclick="confirmEat('${food.name}', ${food.sugar_g}, ${food.calories})" class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-bold hover:bg-blue-200 transition">+ Makan</button>
+                    <button onclick="confirmEat('${food.name}', ${food.sugar_g}, ${food.calories})" class="bg-emerald-50 text-emerald-600 h-8 w-8 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition shadow-sm font-bold text-lg">+</button>
                 `;
                 list.appendChild(item);
             });
@@ -181,26 +299,42 @@
             
             let title = "Konfirmasi Makan";
             let icon = "question";
-            let text = `Anda akan memakan ${name} (${sugar}g gula & ${cal} kkal).`;
+            let html = `
+                <div class="text-left bg-gray-50 p-4 rounded-xl mb-2">
+                    <p class="text-sm text-gray-600">Anda akan mengonsumsi:</p>
+                    <p class="font-bold text-lg text-gray-800">${name}</p>
+                    <div class="flex gap-3 mt-2">
+                        <div class="flex-1 bg-white p-2 rounded border text-center">
+                            <p class="text-xs text-gray-400">Gula</p>
+                            <p class="font-bold text-red-500">${sugar}g</p>
+                        </div>
+                        <div class="flex-1 bg-white p-2 rounded border text-center">
+                            <p class="text-xs text-gray-400">Kalori</p>
+                            <p class="font-bold text-blue-500">${cal}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
 
             if (predicted > limit) {
                 title = "BAHAYA GULA! 🚨";
                 icon = "error";
-                text = `STOP! Total gula harian akan menjadi ${predicted}g (Melewati Batas!).`;
-            } else if (predicted > (limit * 0.8)) {
-                title = "Hati-Hati ⚠️";
-                icon = "warning";
-                text = `Kuota gula Anda hampir habis.`;
-            }
+                html += `<p class="text-red-600 font-bold text-sm mt-2">⚠️ Peringatan: Total gula akan menembus batas harian!</p>`;
+            } 
 
             Swal.fire({
                 title: title,
-                text: text,
+                html: html,
                 icon: icon,
                 showCancelButton: true,
-                confirmButtonColor: icon === 'error' ? '#d33' : '#3085d6',
+                confirmButtonColor: icon === 'error' ? '#EF4444' : '#10B981',
                 confirmButtonText: 'Ya, Makan!',
-                cancelButtonText: 'Batal'
+                cancelButtonText: 'Batal',
+                customClass: {
+                    popup: 'rounded-3xl',
+                    confirmButton: 'rounded-xl',
+                    cancelButton: 'rounded-xl'
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     saveFoodToLog(name, sugar, cal);
@@ -215,7 +349,15 @@
                 body: JSON.stringify({ user_id: USER_ID, food_name: name, sugar_g: sugar, calories: cal })
             });
             
-            Swal.fire('Tercatat!', 'Makanan berhasil disimpan.', 'success');
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            })
+            Toast.fire({ icon: 'success', title: 'Makanan tercatat!' });
+
             refreshDashboard(); 
             loadTodayLogs();    
             document.getElementById('searchResult').innerHTML = ''; 
@@ -230,18 +372,26 @@
             list.innerHTML = '';
 
             if(data.results.length === 0) {
-                list.innerHTML = '<p class="text-center text-xs text-gray-400 py-4">Belum ada makanan dicatat.</p>';
+                list.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-8 opacity-40">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1147/1147805.png" class="w-12 h-12 mb-2 grayscale">
+                        <p class="text-xs text-gray-500">Belum ada catatan.</p>
+                    </div>
+                `;
                 return;
             }
 
             data.results.forEach(log => {
                 const item = document.createElement('div');
-                item.className = "flex justify-between p-2 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition";
+                item.className = "flex justify-between items-center p-3 bg-white border border-gray-100 rounded-2xl hover:border-emerald-100 transition";
                 item.innerHTML = `
-                    <span class="text-sm text-gray-700">${log.food_name}</span>
+                    <div class="flex items-center gap-3">
+                        <div class="h-8 w-8 rounded-full bg-white flex items-center justify-center shadow-sm text-xs border border-gray-100">🍽️</div>
+                        <span class="text-sm font-bold text-gray-700">${log.food_name}</span>
+                    </div>
                     <div class="text-right">
-                        <span class="block text-xs font-bold text-green-600">${log.sugar_intake}g Gula</span>
-                        <span class="block text-[10px] text-gray-400">${log.calories_intake || 0} Kal</span>
+                        <span class="block text-xs font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-md mb-1">+${log.sugar_intake}g</span>
+                        <span class="block text-[10px] text-gray-400">${log.calories_intake || 0} kkal</span>
                     </div>
                 `;
                 list.appendChild(item);
