@@ -40,6 +40,18 @@
                     </select>
                 </div>
             </div>
+            
+            <div>
+                <label class="text-xs text-gray-500">Riwayat Penyakit (Untuk Rekomendasi)</label>
+                <select id="condition" class="w-full border p-2 rounded h-[42px] bg-white">
+                    <option value="Sehat">✅ Sehat / Tidak Ada</option>
+                    <option value="Asam Lambung">🔥 Asam Lambung</option>
+                    <option value="Diabetes">🩸 Diabetes</option>
+                    <option value="Hipertensi">❤️ Hipertensi</option>
+                    <option value="Kolesterol">🍔 Kolesterol</option>
+                </select>
+            </div>
+
             <div>
                 <label class="text-xs text-gray-500">Aktivitas Fisik</label>
                 <select id="activity" class="w-full border p-2 rounded">
@@ -55,6 +67,7 @@
         <p class="text-center text-sm text-gray-600 mt-4">Sudah punya akun? <a href="login.html" class="text-green-600 font-bold hover:underline">Masuk</a></p>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         async function handleRegister() {
             const payload = {
@@ -64,12 +77,13 @@
                 height: document.getElementById('height').value,
                 age: document.getElementById('age').value,
                 gender: document.getElementById('gender').value,
+                health_condition: document.getElementById('condition').value, // UPDATE
                 activity_level: document.getElementById('activity').value
             };
 
-            // Validasi sederhana
-            if(!payload.username || !payload.password || !payload.weight) {
-                alert("Mohon lengkapi semua data!"); return;
+            if(!payload.username || !payload.password || !payload.weight || !payload.age) {
+                Swal.fire({ icon: 'error', title: 'Gagal', text: 'Mohon lengkapi semua data!' });
+                return;
             }
 
             try {
@@ -80,16 +94,17 @@
                 });
                 const data = await res.json();
 
-                if (data.status === 'success') {
-                    // Auto Login
-                    localStorage.setItem('user_id', data.user_id);
-                    localStorage.setItem('username', data.username);
-                    alert("Akun berhasil dibuat! Mengalihkan...");
-                    window.location.href = 'index.html';
+                if (res.ok || data.status === 'success') { // Handle variasi response backend
+                    // Auto Login logic
+                    localStorage.setItem('user_id', data.user_id || 0); // Pastikan backend kirim ID saat register atau user login manual
+                    localStorage.setItem('username', data.username || payload.username);
+                    
+                    Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Akun dibuat. Silakan login.', timer: 2000, showConfirmButton: false })
+                    .then(() => window.location.href = 'login.html');
                 } else {
-                    alert("Gagal: " + data.message);
+                    Swal.fire({ icon: 'error', title: 'Gagal', text: data.message });
                 }
-            } catch(e) { alert("Server Error"); }
+            } catch(e) { Swal.fire({ icon: 'error', title: 'Error', text: 'Gagal koneksi ke server.' }); }
         }
     </script>
 </body>
