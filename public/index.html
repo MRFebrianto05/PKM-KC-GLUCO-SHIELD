@@ -9,46 +9,28 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #FAFAFA; } /* Sedikit lebih putih agar buah menyatu */
+        body { font-family: 'Poppins', sans-serif; background-color: #FAFAFA; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Animasi Progress Bar */
-        .progress-bar-glow {
-            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
-        }
-        
-        /* Hide Scrollbar tapi tetap bisa scroll */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Animasi Mengambang Halus untuk Background */
         .float-slow { animation: float 8s ease-in-out infinite; }
         .float-medium { animation: float 6s ease-in-out infinite; }
         .float-fast { animation: float 5s ease-in-out infinite; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+        
+        .progress-bar-glow { box-shadow: 0 0 10px rgba(34, 197, 94, 0.5); }
     </style>
 </head>
 <body class="pb-20 relative">
 
     <div class="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
-        <img src="https://pngimg.com/d/apple_PNG12405.png" class="absolute -top-10 -left-10 w-48 opacity-20 rotate-12 float-slow" alt="Apple">
-        
-        <img src="https://pngimg.com/d/spinach_PNG10.png" class="absolute -top-20 -right-20 w-80 opacity-15 float-medium" alt="Spinach">
-        
-        <img src="https://pngimg.com/d/orange_PNG780.png" class="absolute bottom-0 -right-10 w-56 opacity-20 -rotate-12 float-slow" alt="Orange">
-
-        <img src="https://pngimg.com/d/avocado_PNG15516.png" class="absolute bottom-20 -left-16 w-40 opacity-15 rotate-45 float-fast" alt="Avocado">
+        <img src="https://pngimg.com/d/apple_PNG12405.png" class="absolute -top-10 -left-10 w-48 opacity-20 rotate-12 float-slow">
+        <img src="https://pngimg.com/d/spinach_PNG10.png" class="absolute -top-20 -right-20 w-80 opacity-15 float-medium">
+        <img src="https://pngimg.com/d/orange_PNG780.png" class="absolute bottom-0 -right-10 w-56 opacity-20 -rotate-12 float-slow">
+        <img src="https://pngimg.com/d/avocado_PNG15516.png" class="absolute bottom-20 -left-16 w-40 opacity-15 rotate-45 float-fast">
     </div>
+
     <div class="relative bg-gradient-to-br from-emerald-600 via-teal-500 to-cyan-600 h-64 rounded-b-[40px] shadow-xl">
-        
         <nav class="max-w-5xl mx-auto px-6 pt-6 flex justify-between items-center text-white">
             <div class="flex items-center gap-2">
                 <div class="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
@@ -67,42 +49,30 @@
                     </div>
                     <div class="h-10 w-10 bg-white text-emerald-600 rounded-full flex items-center justify-center font-bold shadow-lg group-hover:scale-110 transition" id="navAvatar">U</div>
                 </a>
-                <button onclick="logout()" class="bg-red-500/20 hover:bg-red-500 text-white p-3 rounded-full transition backdrop-blur-md shadow-lg" title="Keluar">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
-                </button>
             </div>
         </nav>
 
         <div class="max-w-5xl mx-auto px-6 mt-8 text-white">
             <h1 class="text-3xl font-extrabold mb-1">Jaga Gula, Jaga Nyawa.</h1>
-            <p class="opacity-90 text-sm font-light max-w-md">Pantau asupan nutrisi harianmu secara realtime dengan teknologi Early Warning System.</p>
+            <p class="opacity-90 text-sm font-light max-w-md">Pantau asupan nutrisi & gaya hidup sehatmu hari ini.</p>
         </div>
     </div>
 
     <div class="max-w-5xl mx-auto px-6 -mt-16 relative z-10">
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl p-6 relative overflow-hidden group hover:-translate-y-1 transition duration-300 border border-white/50">
-                <div class="absolute right-0 top-0 w-32 h-32 bg-green-50 rounded-bl-[100px] -mr-6 -mt-6 z-0 group-hover:scale-110 transition"></div>
                 <div class="relative z-10">
                     <div class="flex justify-between items-start mb-4">
                         <div class="bg-green-100 p-3 rounded-2xl text-2xl">🍬</div>
                         <div class="text-right">
-                            <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">Batas Harian</p>
+                            <p class="text-xs text-gray-400 font-bold uppercase">Batas Harian</p>
                             <p class="text-lg font-bold text-gray-700" id="dailyLimit">0g</p>
                         </div>
                     </div>
-                    
                     <h2 class="text-4xl font-extrabold text-gray-800 mb-1" id="currentIntake">0<span class="text-lg text-gray-400 font-medium">g</span></h2>
-                    <p class="text-xs text-gray-400 mb-4">Total Gula Terkonsumsi</p>
-
                     <div class="w-full bg-gray-100 rounded-full h-4 overflow-hidden shadow-inner relative">
-                        <div id="progressBar" class="bg-gradient-to-r from-emerald-400 to-green-500 h-4 rounded-full transition-all duration-1000 progress-bar-glow relative" style="width: 0%">
-                            <div class="absolute top-0 left-0 bottom-0 right-0 bg-white opacity-20 w-full h-full animate-pulse"></div>
-                        </div>
+                        <div id="progressBar" class="bg-gradient-to-r from-emerald-400 to-green-500 h-4 rounded-full transition-all duration-1000 progress-bar-glow relative" style="width: 0%"></div>
                     </div>
                     <div class="flex justify-between mt-2">
                         <p class="text-[10px] text-gray-400 font-bold">0%</p>
@@ -113,19 +83,15 @@
             </div>
 
             <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl p-6 relative overflow-hidden group hover:-translate-y-1 transition duration-300 border border-white/50">
-                <div class="absolute right-0 top-0 w-32 h-32 bg-blue-50 rounded-bl-[100px] -mr-6 -mt-6 z-0 group-hover:scale-110 transition"></div>
                 <div class="relative z-10">
                     <div class="flex justify-between items-start mb-4">
                         <div class="bg-blue-100 p-3 rounded-2xl text-2xl">🔥</div>
                         <div class="text-right">
-                            <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">Target TDEE</p>
+                            <p class="text-xs text-gray-400 font-bold uppercase">Target TDEE</p>
                             <p class="text-lg font-bold text-gray-700" id="limitKal">0</p>
                         </div>
                     </div>
-                    
                     <h2 class="text-4xl font-extrabold text-gray-800 mb-1" id="currentKal">0<span class="text-lg text-gray-400 font-medium">kkal</span></h2>
-                    <p class="text-xs text-gray-400 mb-4">Total Kalori Masuk</p>
-
                     <div class="w-full bg-gray-100 rounded-full h-4 overflow-hidden shadow-inner relative">
                         <div id="progressKal" class="bg-gradient-to-r from-blue-400 to-cyan-500 h-4 rounded-full transition-all duration-1000 relative" style="width: 0%"></div>
                     </div>
@@ -133,6 +99,74 @@
                         <p class="text-[10px] text-gray-400 font-bold">0%</p>
                         <p class="text-[10px] font-bold text-blue-600" id="persenKal">On Track</p>
                         <p class="text-[10px] text-gray-400 font-bold">100%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            
+            <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-lg p-5 border border-gray-100 flex flex-col justify-center">
+                <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">🛡️ Kebutuhan Mikro</h3>
+                
+                <div class="mb-4">
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-gray-500 font-medium">Protein (Target: 60g)</span>
+                        <span class="font-bold text-orange-600" id="valProt">0g</span>
+                    </div>
+                    <div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+                        <div id="barProt" class="bg-gradient-to-r from-orange-300 to-orange-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
+                    <p class="text-[10px] text-red-500 mt-1 font-bold hidden flex items-center gap-1" id="alertProt">⚠️ Kurang Protein! Makan ayam/telur.</p>
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-gray-500 font-medium">Serat (Target: 30g)</span>
+                        <span class="font-bold text-green-600" id="valFiber">0g</span>
+                    </div>
+                    <div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+                        <div id="barFiber" class="bg-gradient-to-r from-green-300 to-green-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
+                    <p class="text-[10px] text-red-500 mt-1 font-bold hidden flex items-center gap-1" id="alertFiber">⚠️ Kurang Serat! Makan sayur/buah.</p>
+                </div>
+            </div>
+
+            <div class="md:col-span-2 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-3xl shadow-lg p-5 border border-blue-100">
+                <h3 class="font-bold text-indigo-900 mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">🏃‍♂️ Gaya Hidup Sehat</h3>
+                
+                <div class="grid grid-cols-2 gap-4 h-full">
+                    
+                    <div class="bg-white p-4 rounded-2xl shadow-sm text-center flex flex-col justify-center items-center hover:-translate-y-1 transition duration-300 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-blue-200">
+                            <div id="barWater" class="h-full bg-blue-500 transition-all duration-1000" style="width: 0%"></div>
+                        </div>
+                        <p class="text-3xl mb-1">💧</p>
+                        <p class="text-[10px] text-gray-400 font-bold uppercase">Target: 2500ml</p>
+                        <h4 class="text-2xl font-extrabold text-blue-600 my-1"><span id="waterVal">0</span><span class="text-xs text-gray-400 font-normal">ml</span></h4>
+                        
+                        <p class="text-[10px] text-red-500 font-bold mb-2 hidden animate-pulse" id="alertWater">⚠️ Kurang Minum!</p>
+                        
+                        <button onclick="addWater()" class="bg-blue-100 hover:bg-blue-500 hover:text-white text-blue-600 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-sm">
+                            +250ml
+                        </button>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-2xl shadow-sm text-center flex flex-col justify-center items-center hover:-translate-y-1 transition duration-300 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-indigo-200">
+                            <div id="barSport" class="h-full bg-indigo-500 transition-all duration-1000" style="width: 0%"></div>
+                        </div>
+                        <p class="text-3xl mb-1">💪</p>
+                        <p class="text-[10px] text-gray-400 font-bold uppercase">Target: 30 Menit</p>
+                        
+                        <h4 class="text-2xl font-extrabold text-indigo-600 my-1"><span id="sportVal">0</span><span class="text-xs text-gray-400 font-normal">mnt</span></h4>
+                        <p class="text-[10px] text-indigo-400 font-medium mb-1 truncate max-w-[120px]" id="sportDetail">-</p>
+                        
+                        <p class="text-[10px] text-red-500 font-bold mb-2 hidden animate-pulse" id="alertSport">⚠️ Ayo Gerak!</p>
+                        
+                        <button onclick="updateSport()" class="bg-indigo-100 hover:bg-indigo-500 hover:text-white text-indigo-600 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-sm">
+                            + Aktivitas
+                        </button>
                     </div>
                 </div>
             </div>
@@ -147,13 +181,11 @@
                 <p class="text-xs text-gray-400 mb-6">Cari makanan yang akan kamu konsumsi hari ini.</p>
                 
                 <div class="flex gap-3 mb-6 relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <input type="text" id="searchInput" placeholder="Ketik: Nasi Goreng, Boba, Apel..." class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition outline-none">
-                    <button onclick="searchFood()" class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transform hover:-translate-y-0.5 transition font-bold text-sm flex items-center gap-2">
+                    <input type="text" id="searchInput" placeholder="Cari: Nasi, Boba, Apel..." class="w-full pl-4 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition outline-none">
+                    
+                    <input type="number" id="portionInput" value="1" min="0.5" step="0.5" placeholder="Porsi" class="w-24 pl-2 pr-2 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-center focus:ring-2 focus:ring-emerald-500 outline-none" title="Jumlah Porsi">
+                    
+                    <button onclick="searchFood()" class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition font-bold text-sm flex items-center gap-2">
                         Cari
                     </button>
                 </div>
@@ -167,16 +199,12 @@
 
             <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-lg p-6 border border-gray-100 h-fit">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-bold text-lg text-gray-800">📋 Riwayat</h3>
+                    <h3 class="font-bold text-lg text-gray-800">📋 Riwayat Hari Ini</h3>
                     <a href="profile.html" class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg hover:bg-emerald-100 transition">Lihat Semua</a>
                 </div>
                 
                 <div id="logList" class="space-y-3 max-h-[400px] overflow-y-auto no-scrollbar">
-                    <div class="animate-pulse space-y-3">
-                        <div class="h-12 bg-gray-100 rounded-xl"></div>
-                        <div class="h-12 bg-gray-100 rounded-xl"></div>
-                        <div class="h-12 bg-gray-100 rounded-xl"></div>
-                    </div>
+                    <div class="text-center py-8 opacity-40"><p class="text-xs text-gray-500">Memuat...</p></div>
                 </div>
             </div>
 
@@ -188,25 +216,23 @@
         const USER_ID = localStorage.getItem('user_id');
         const USERNAME = localStorage.getItem('username');
 
+        // Cek Login
         if (!USER_ID) { window.location.href = 'login.html'; }
-        
         if(USERNAME) {
             document.getElementById('userNameDisplay').innerText = USERNAME;
             document.getElementById('navAvatar').innerText = USERNAME.charAt(0).toUpperCase();
         }
 
-        function logout() { localStorage.clear(); window.location.href = 'login.html'; }
-
         document.addEventListener('DOMContentLoaded', () => {
-            refreshDashboard();
-            loadTodayLogs();
-            
-            // Enter key trigger search
+            refreshDashboard(); 
+            loadLifestyle();    
+            loadTodayLogs();    
             document.getElementById("searchInput").addEventListener("keypress", function(event) {
-                if (event.key === "Enter") { searchFood(); }
+                if (event.key === "Enter") searchFood();
             });
         });
 
+        // --- 1. DASHBOARD UPDATE ---
         async function refreshDashboard() {
             try {
                 const res = await fetch(`${API_URL}/dashboard-data`, {
@@ -216,17 +242,14 @@
                 });
                 const data = await res.json();
                 
-                // --- UPDATE GULA ---
+                // Gula
                 document.getElementById('currentIntake').innerText = data.current_intake;
                 document.getElementById('dailyLimit').innerText = data.limit_user + 'g';
                 document.getElementById('persenText').innerText = data.persentase + ' Terpakai';
-
                 const barGula = document.getElementById('progressBar');
-                let wGula = parseInt(data.persentase);
-                if(wGula > 100) wGula = 100;
+                let wGula = parseInt(data.persentase); if(wGula > 100) wGula = 100;
                 barGula.style.width = wGula + '%';
                 
-                // Logic Warna Gradient
                 if(data.ui_color === 'red') {
                     barGula.className = `bg-gradient-to-r from-red-500 to-red-600 h-4 rounded-full transition-all duration-1000 relative shadow-red-200 shadow-lg`;
                     document.getElementById('persenText').className = "text-[10px] font-bold text-red-600";
@@ -241,32 +264,153 @@
                     document.getElementById('persenText').innerText = "Aman";
                 }
 
-                // --- UPDATE KALORI ---
+                // Kalori
                 document.getElementById('currentKal').innerText = data.current_kalori;
                 document.getElementById('limitKal').innerText = data.limit_kalori + ' kkal';
                 document.getElementById('persenKal').innerText = data.persentase_kalori + ' Terpakai';
-
                 const barKal = document.getElementById('progressKal');
-                let wKal = parseInt(data.persentase_kalori);
-                if(wKal > 100) wKal = 100;
+                let wKal = parseInt(data.persentase_kalori); if(wKal > 100) wKal = 100;
                 barKal.style.width = wKal + '%';
-                
                 let kalClass = 'from-blue-400 to-cyan-500';
                 if(data.color_kalori === 'red') kalClass = 'from-red-500 to-pink-600';
                 else if(data.color_kalori === 'orange') kalClass = 'from-orange-400 to-orange-600';
-                
                 barKal.className = `bg-gradient-to-r ${kalClass} h-4 rounded-full transition-all duration-1000 relative`;
+
+                // Reminder Nutrisi
+                const prot = parseFloat(data.total_protein || 0);
+                const fiber = parseFloat(data.total_fiber || 0);
+                const targetProt = 60; 
+                const targetFiber = 30; 
+
+                document.getElementById('valProt').innerText = prot.toFixed(1) + 'g';
+                document.getElementById('valFiber').innerText = fiber.toFixed(1) + 'g';
+
+                let pProt = (prot / targetProt) * 100; if(pProt>100) pProt=100;
+                let pFiber = (fiber / targetFiber) * 100; if(pFiber>100) pFiber=100;
+                
+                document.getElementById('barProt').style.width = pProt + '%';
+                document.getElementById('barFiber').style.width = pFiber + '%';
+
+                if(prot < (targetProt * 0.5)) document.getElementById('alertProt').classList.remove('hidden');
+                else document.getElementById('alertProt').classList.add('hidden');
+
+                if(fiber < (targetFiber * 0.5)) document.getElementById('alertFiber').classList.remove('hidden');
+                else document.getElementById('alertFiber').classList.add('hidden');
 
             } catch (err) { console.error(err); }
         }
 
+        // --- 2. LIFESTYLE (MINUM & OLAHRAGA - UPDATE) ---
+        async function loadLifestyle() {
+            try {
+                const res = await fetch(`${API_URL}/lifestyle?user_id=${USER_ID}`);
+                const data = await res.json();
+                
+                // AIR MINUM
+                const water = parseInt(data.water);
+                const targetWater = 2500;
+                document.getElementById('waterVal').innerText = water;
+                
+                // Progress Bar
+                let pWater = (water / targetWater) * 100; if(pWater>100) pWater=100;
+                document.getElementById('barWater').style.width = pWater + '%';
+
+                // Reminder Air
+                if(water < (targetWater * 0.8)) document.getElementById('alertWater').classList.remove('hidden');
+                else document.getElementById('alertWater').classList.add('hidden');
+
+
+                // OLAHRAGA
+                const sport = parseInt(data.exercise);
+                const cal = parseInt(data.calories);
+                const lastType = data.last_type;
+                const targetSport = 30; // 30 menit
+
+                document.getElementById('sportVal').innerText = sport;
+                
+                // Update Detail Text
+                if(sport > 0) {
+                    document.getElementById('sportDetail').innerText = `${lastType} • 🔥 ${cal} kkal`;
+                } else {
+                    document.getElementById('sportDetail').innerText = "Belum ada aktivitas";
+                }
+
+                // Progress Bar
+                let pSport = (sport / targetSport) * 100; if(pSport>100) pSport=100;
+                document.getElementById('barSport').style.width = pSport + '%';
+
+                // Reminder Olahraga
+                if(sport < 15) document.getElementById('alertSport').classList.remove('hidden');
+                else document.getElementById('alertSport').classList.add('hidden');
+
+            } catch (e) { console.error(e); }
+        }
+
+        async function addWater() {
+            await fetch(`${API_URL}/update-lifestyle`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: USER_ID, type: 'water', value: 250 })
+            });
+            loadLifestyle();
+            const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 1500 });
+            Toast.fire({ icon: 'success', title: '+250ml Air' });
+        }
+
+        async function updateSport() {
+            // Popup Input Olahraga (SweetAlert dengan 2 Input)
+            const { value: formValues } = await Swal.fire({
+                title: 'Catat Olahraga',
+                html:
+                    '<input id="swal-input1" class="swal2-input" placeholder="Jenis (misal: Lari, Gym)">' +
+                    '<input id="swal-input2" type="number" class="swal2-input" placeholder="Durasi (menit)">',
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: 'Simpan',
+                confirmButtonColor: '#4F46E5',
+                preConfirm: () => {
+                    return [
+                        document.getElementById('swal-input1').value,
+                        document.getElementById('swal-input2').value
+                    ]
+                }
+            });
+
+            if (formValues && formValues[0] && formValues[1]) {
+                const type = formValues[0];
+                const minutes = parseInt(formValues[1]);
+
+                await fetch(`${API_URL}/update-lifestyle`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        user_id: USER_ID, 
+                        type: 'exercise', 
+                        value: minutes,
+                        sport_name: type
+                    })
+                });
+                
+                const estCal = minutes * 7; 
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Mantap!',
+                    text: `Kamu membakar sekitar ${estCal} kkal! 🔥`,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                loadLifestyle();
+            }
+        }
+
+        // --- 3. SEARCH FOOD ---
         async function searchFood() {
             const query = document.getElementById('searchInput').value;
             if(!query) return;
 
             const res = await fetch(`${API_URL}/search?q=${query}`);
             const data = await res.json();
-            
             const list = document.getElementById('searchResult');
             list.innerHTML = '';
 
@@ -277,40 +421,49 @@
 
             data.results.forEach(food => {
                 const item = document.createElement('div');
-                item.className = "flex justify-between items-center p-3 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition hover:border-emerald-100 group";
+                item.className = "flex justify-between items-center p-3 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition group";
+                
                 item.innerHTML = `
                     <div>
-                        <p class="font-bold text-sm text-gray-800 group-hover:text-emerald-700 transition">${food.name}</p>
+                        <p class="font-bold text-sm text-gray-800">${food.name}</p>
+                        <p class="text-[10px] text-gray-400 italic">${food.serving_desc || 'per porsi'}</p>
                         <div class="flex gap-2 mt-1">
                             <span class="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-bold">🍬 ${food.sugar_g}g</span>
                             <span class="text-[10px] bg-blue-50 text-blue-500 px-2 py-0.5 rounded-full font-bold">🔥 ${food.calories}</span>
                         </div>
                     </div>
-                    <button onclick="confirmEat('${food.name}', ${food.sugar_g}, ${food.calories})" class="bg-emerald-50 text-emerald-600 h-8 w-8 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition shadow-sm font-bold text-lg">+</button>
+                    <button onclick='confirmEat(${JSON.stringify(food)})' class="bg-emerald-50 text-emerald-600 h-8 w-8 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition shadow-sm font-bold text-lg">+</button>
                 `;
                 list.appendChild(item);
             });
         }
 
-        function confirmEat(name, sugar, cal) {
+        // --- 4. CONFIRM EAT ---
+        function confirmEat(food) {
+            const portionInput = document.getElementById('portionInput');
+            const portion = parseFloat(portionInput.value) || 1; 
+
             const current = parseFloat(document.getElementById('currentIntake').innerText);
             const limit = parseFloat(document.getElementById('dailyLimit').innerText);
-            const predicted = current + sugar;
+            
+            const totalSugar = (food.sugar_g * portion).toFixed(1);
+            const totalCal = Math.round(food.calories * portion);
+            const predicted = current + parseFloat(totalSugar);
             
             let title = "Konfirmasi Makan";
             let icon = "question";
             let html = `
                 <div class="text-left bg-gray-50 p-4 rounded-xl mb-2">
-                    <p class="text-sm text-gray-600">Anda akan mengonsumsi:</p>
-                    <p class="font-bold text-lg text-gray-800">${name}</p>
+                    <p class="text-sm text-gray-600">Anda akan makan <b>${portion} porsi</b>:</p>
+                    <p class="font-bold text-lg text-gray-800">${food.name}</p>
                     <div class="flex gap-3 mt-2">
                         <div class="flex-1 bg-white p-2 rounded border text-center">
-                            <p class="text-xs text-gray-400">Gula</p>
-                            <p class="font-bold text-red-500">${sugar}g</p>
+                            <p class="text-xs text-gray-400">Total Gula</p>
+                            <p class="font-bold text-red-500 text-lg">${totalSugar}g</p>
                         </div>
                         <div class="flex-1 bg-white p-2 rounded border text-center">
-                            <p class="text-xs text-gray-400">Kalori</p>
-                            <p class="font-bold text-blue-500">${cal}</p>
+                            <p class="text-xs text-gray-400">Total Kalori</p>
+                            <p class="font-bold text-blue-500 text-lg">${totalCal}</p>
                         </div>
                     </div>
                 </div>
@@ -330,67 +483,77 @@
                 confirmButtonColor: icon === 'error' ? '#EF4444' : '#10B981',
                 confirmButtonText: 'Ya, Makan!',
                 cancelButtonText: 'Batal',
-                customClass: {
-                    popup: 'rounded-3xl',
-                    confirmButton: 'rounded-xl',
-                    cancelButton: 'rounded-xl'
-                }
+                customClass: { popup: 'rounded-3xl' }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    saveFoodToLog(name, sugar, cal);
+                    saveFoodToLog(food, portion);
                 }
             });
         }
 
-        async function saveFoodToLog(name, sugar, cal) {
-            await fetch(`${API_URL}/log-food`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: USER_ID, food_name: name, sugar_g: sugar, calories: cal })
-            });
-            
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-            })
-            Toast.fire({ icon: 'success', title: 'Makanan tercatat!' });
+        // --- 5. SIMPAN KE LOG ---
+        async function saveFoodToLog(food, portion) {
+            try {
+                await fetch(`${API_URL}/log-food`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        user_id: USER_ID, 
+                        food_name: food.name, 
+                        portion: portion,
+                        sugar: food.sugar_g, 
+                        calories: food.calories,
+                        protein: food.protein_g,
+                        fat: food.fat_g,
+                        carbs: food.carbs_g,
+                        fiber: food.fiber_g
+                    })
+                });
+                
+                const Toast = Swal.mixin({
+                    toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, timerProgressBar: true
+                })
+                Toast.fire({ icon: 'success', title: 'Tercatat!' });
 
-            refreshDashboard(); 
-            loadTodayLogs();    
-            document.getElementById('searchResult').innerHTML = ''; 
-            document.getElementById('searchInput').value = '';
+                refreshDashboard(); 
+                loadTodayLogs();    
+                document.getElementById('searchResult').innerHTML = ''; 
+                document.getElementById('searchInput').value = '';
+                document.getElementById('portionInput').value = '1';
+
+            } catch(err) { console.error(err); }
         }
 
+        // --- 6. LOAD RIWAYAT ---
         async function loadTodayLogs() {
             const res = await fetch(`${API_URL}/today-logs?user_id=${USER_ID}`);
             const data = await res.json();
-            
             const list = document.getElementById('logList');
             list.innerHTML = '';
 
             if(data.results.length === 0) {
-                list.innerHTML = `
-                    <div class="flex flex-col items-center justify-center py-8 opacity-40">
-                        <img src="https://cdn-icons-png.flaticon.com/512/1147/1147805.png" class="w-12 h-12 mb-2 grayscale">
-                        <p class="text-xs text-gray-500">Belum ada catatan.</p>
-                    </div>
-                `;
+                list.innerHTML = `<div class="text-center py-8 opacity-40"><img src="https://cdn-icons-png.flaticon.com/512/1147/1147805.png" class="w-12 h-12 mb-2 grayscale inline-block"><p class="text-xs text-gray-500">Belum ada catatan.</p></div>`;
                 return;
             }
 
             data.results.forEach(log => {
+                let timeColor = "bg-gray-100 text-gray-500";
+                if(log.meal_time === 'Pagi') timeColor = "bg-yellow-100 text-yellow-600";
+                else if(log.meal_time === 'Siang') timeColor = "bg-orange-100 text-orange-600";
+                else if(log.meal_time === 'Malam') timeColor = "bg-indigo-100 text-indigo-600";
+
                 const item = document.createElement('div');
-                item.className = "flex justify-between items-center p-3 bg-white border border-gray-100 rounded-2xl hover:border-emerald-100 transition";
+                item.className = "flex justify-between items-center p-3 bg-white border border-gray-100 rounded-2xl hover:border-emerald-100 transition shadow-sm";
                 item.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <div class="h-8 w-8 rounded-full bg-white flex items-center justify-center shadow-sm text-xs border border-gray-100">🍽️</div>
-                        <span class="text-sm font-bold text-gray-700">${log.food_name}</span>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider ${timeColor}">${log.meal_time}</span>
+                            <span class="text-[10px] text-gray-400">${log.portion_amount} porsi</span>
+                        </div>
+                        <p class="font-bold text-sm text-gray-800">${log.food_name}</p>
                     </div>
                     <div class="text-right">
-                        <span class="block text-xs font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-md mb-1">+${log.sugar_intake}g</span>
+                        <span class="block text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md mb-1">+${log.sugar_intake}g</span>
                         <span class="block text-[10px] text-gray-400">${log.calories_intake || 0} kkal</span>
                     </div>
                 `;

@@ -1,21 +1,26 @@
-// File: routes/api.js
 const express = require('express');
 const router = express.Router();
-const foodController = require('../controllers/foodController');
 const authController = require('../controllers/authController');
+const foodController = require('../controllers/foodController');
 
-// --- AUTHENTICATION ---
+// Auth
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 
-// --- DASHBOARD FEATURES ---
-router.post('/dashboard-data', foodController.checkDashboardData); 
-router.get('/search', foodController.searchFood);                  
-router.post('/log-food', foodController.addFoodLog);               
-router.get('/today-logs', foodController.getTodayLogs);            
+// Food & Dashboard
+router.get('/search', foodController.searchFood);
+router.post('/log-food', foodController.addFoodLog);
+router.post('/dashboard-data', foodController.checkDashboardData);
+router.get('/today-logs', foodController.getTodayLogs);
 
-// --- PROFILE & HISTORY FEATURES (BARU) ---
+// Lifestyle (Minum & Olahraga) -- BARU
+router.get('/lifestyle', foodController.getLifestyleLogs);
+router.post('/update-lifestyle', foodController.updateLifestyleLog);
+
+// Profile & History
 router.get('/user-profile', foodController.getUserProfile);
 router.get('/history-all', foodController.getAllHistory);
+router.post('/update-weight', foodController.updateWeight);
+router.get('/weight-history', foodController.getWeightHistory);
 
 module.exports = router;

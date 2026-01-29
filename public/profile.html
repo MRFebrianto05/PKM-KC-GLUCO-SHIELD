@@ -6,92 +6,122 @@
     <title>Profil Saya | GLUCO-SHIELD</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         body { font-family: 'Poppins', sans-serif; background-color: #FAFAFA; }
-        /* Hide Scrollbar tapi tetap bisa scroll */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Animasi Mengambang Halus */
+        
+        /* Animasi Buah */
         .float-slow { animation: float 8s ease-in-out infinite; }
-        .float-medium { animation: float 6s ease-in-out infinite; }
-        .float-fast { animation: float 5s ease-in-out infinite; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
     </style>
 </head>
 <body class="pb-10 relative">
 
     <div class="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
-        <img src="https://pngimg.com/d/lemon_PNG25208.png" class="absolute top-[15%] -left-10 w-48 opacity-15 rotate-45 float-slow" alt="Lemon">
-        
-        <img src="https://pngimg.com/d/tomato_PNG12594.png" class="absolute bottom-[20%] -right-10 w-32 opacity-15 -rotate-12 float-medium" alt="Tomato">
-
-        <img src="https://pngimg.com/d/lettuce_PNG1238.png" class="absolute -top-10 -right-10 w-56 opacity-10 float-fast" alt="Lettuce">
+        <img src="https://pngimg.com/d/lemon_PNG25208.png" class="absolute top-[15%] -left-10 w-48 opacity-15 rotate-45 float-slow">
+        <img src="https://pngimg.com/d/tomato_PNG12594.png" class="absolute bottom-[20%] -right-10 w-32 opacity-15 -rotate-12 float-slow">
     </div>
+
     <div class="relative bg-gradient-to-br from-emerald-600 to-teal-500 pb-24 pt-6 px-6 rounded-b-[40px] shadow-xl overflow-hidden">
         <div class="absolute -top-10 -right-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl"></div>
-        <div class="absolute bottom-0 -left-10 w-32 h-32 bg-emerald-300 opacity-20 rounded-full blur-xl"></div>
-
-        <div class="max-w-3xl mx-auto relative z-10">
-            <a href="index.html" class="inline-flex items-center gap-2 text-white bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full backdrop-blur-sm transition cursor-pointer">
+        
+        <div class="max-w-3xl mx-auto relative z-10 flex justify-between items-center">
+            <a href="index.html" class="inline-flex items-center gap-2 text-white bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full backdrop-blur-sm transition cursor-pointer border border-white/20">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-                <span class="font-medium text-sm">Kembali ke Dashboard</span>
+                <span class="font-medium text-sm">Dashboard</span>
             </a>
+            <button onclick="logout()" class="text-white bg-red-500/20 hover:bg-red-500 px-4 py-2 rounded-full text-xs font-bold transition backdrop-blur-sm">Logout</button>
         </div>
 
-        <div class="max-w-3xl mx-auto mt-8 flex flex-col items-center text-white relative z-10">
-            <div class="h-24 w-24 bg-white text-emerald-600 rounded-full flex items-center justify-center text-5xl font-bold shadow-xl border-4 border-white/50" id="avatarInitial">
-                ...
-            </div>
-            <h2 class="text-3xl font-bold mt-4 capitalize" id="profName">Memuat...</h2>
-            <p class="text-emerald-100 text-sm flex items-center gap-1 mt-1 bg-white/10 px-3 py-1 rounded-full">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                Member Aktif
-            </p>
+        <div class="max-w-3xl mx-auto mt-6 flex flex-col items-center text-white relative z-10">
+            <div class="h-24 w-24 bg-white text-emerald-600 rounded-full flex items-center justify-center text-5xl font-bold shadow-xl border-4 border-white/50" id="avatarInitial">U</div>
+            <h2 class="text-3xl font-bold mt-4 capitalize" id="profName">...</h2>
+            <p class="text-emerald-100 text-sm bg-white/10 px-3 py-1 rounded-full mt-2 border border-white/20">Member Aktif</p>
         </div>
     </div>
 
     <div class="max-w-3xl mx-auto px-6 -mt-16 relative z-20">
         
-        <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl p-6 mb-8 border border-white/50">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                    <p class="text-2xl">⚖️</p>
-                    <p class="text-[10px] text-gray-400 uppercase tracking-wide font-bold mt-2">Berat Badan</p>
-                    <p class="font-extrabold text-xl text-gray-700"><span id="profBB">-</span> <span class="text-sm font-medium">kg</span></p>
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl p-6 mb-6 border border-white/50">
+            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">Data Fisik</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center divide-x-0 md:divide-x divide-gray-100">
+                <div class="p-2 cursor-pointer hover:bg-gray-50 rounded-xl transition group" onclick="editWeight()" title="Klik untuk update berat">
+                    <p class="text-2xl mb-1">⚖️</p>
+                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wide">Berat</p>
+                    <p class="text-xl font-bold text-gray-700 group-hover:text-emerald-600"><span id="profBB">-</span> <span class="text-sm font-normal text-gray-400">kg ✏️</span></p>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                    <p class="text-2xl">📏</p>
-                    <p class="text-[10px] text-gray-400 uppercase tracking-wide font-bold mt-2">Tinggi Badan</p>
-                    <p class="font-extrabold text-xl text-gray-700"><span id="profTB">-</span> <span class="text-sm font-medium">cm</span></p>
+                <div class="p-2">
+                    <p class="text-2xl mb-1">📏</p>
+                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wide">Tinggi</p>
+                    <p class="text-xl font-bold text-gray-700"><span id="profTB">-</span> <span class="text-sm font-normal text-gray-400">cm</span></p>
                 </div>
-                <div class="bg-green-50 p-4 rounded-2xl shadow-sm border border-green-100">
-                    <p class="text-2xl">🍬</p>
-                    <p class="text-[10px] text-green-600 uppercase tracking-wide font-bold mt-2">Limit Gula</p>
-                    <p class="font-extrabold text-xl text-green-700"><span id="profLimit">-</span> <span class="text-sm font-medium">g</span></p>
+                <div class="p-2">
+                    <p class="text-2xl mb-1">🍬</p>
+                    <p class="text-[10px] text-green-600 font-bold uppercase tracking-wide">Limit Gula</p>
+                    <p class="text-xl font-bold text-green-700"><span id="profLimit">-</span> <span class="text-sm font-normal text-green-400">g</span></p>
                 </div>
-                <div class="bg-blue-50 p-4 rounded-2xl shadow-sm border border-blue-100">
-                    <p class="text-2xl">🔥</p>
-                    <p class="text-[10px] text-blue-600 uppercase tracking-wide font-bold mt-2">TDEE (Kalori)</p>
-                    <p class="font-extrabold text-xl text-blue-700"><span id="profKalori">-</span> <span class="text-sm font-medium">kkal</span></p>
+                <div class="p-2">
+                    <p class="text-2xl mb-1">🔥</p>
+                    <p class="text-[10px] text-orange-500 font-bold uppercase tracking-wide">TDEE</p>
+                    <p class="text-xl font-bold text-orange-600"><span id="profKalori">-</span> <span class="text-sm font-normal text-orange-400">kkal</span></p>
                 </div>
             </div>
         </div>
 
-        <div class="flex items-center gap-3 mb-6">
+        <div class="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-3xl shadow-xl p-6 mb-8 text-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mt-10 blur-2xl"></div>
+            
+            <h3 class="text-xs font-bold text-blue-100 uppercase tracking-wider mb-4 border-b border-blue-400/30 pb-2 relative z-10">Aktivitas Hari Ini</h3>
+            
+            <div class="grid grid-cols-3 gap-4 text-center relative z-10">
+                <div>
+                    <p class="text-2xl mb-1 opacity-80">💧</p>
+                    <p class="text-[10px] text-blue-100 font-bold uppercase">Air Minum</p>
+                    <p class="text-lg font-bold"><span id="statWater">0</span> <span class="text-xs font-normal opacity-70">ml</span></p>
+                </div>
+                
+                <div>
+                    <p class="text-2xl mb-1 opacity-80">💪</p>
+                    <p class="text-[10px] text-blue-100 font-bold uppercase">Aktivitas</p>
+                    <p class="text-lg font-bold leading-none"><span id="statSport">0</span> <span class="text-xs font-normal opacity-70">mnt</span></p>
+                    <p class="text-[10px] text-blue-200 mt-1 capitalize truncate max-w-[80px] mx-auto" id="statSportType">-</p> 
+                </div>
+
+                <div>
+                    <p class="text-2xl mb-1 opacity-80">🔥</p>
+                    <p class="text-[10px] text-blue-100 font-bold uppercase">Terbakar</p>
+                    <p class="text-lg font-bold text-yellow-300"><span id="statCal">0</span> <span class="text-xs font-normal opacity-70 text-white">kkal</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-lg p-6 mb-8 border border-white/50">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center text-lg">📈</div>
+                <div>
+                    <h3 class="font-bold text-lg text-gray-800 leading-none">Tracker Berat Badan</h3>
+                    <p class="text-xs text-gray-400">Grafik perkembangan berat badanmu</p>
+                </div>
+            </div>
+            <div class="h-64 w-full">
+                <canvas id="weightChart"></canvas>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3 mb-6 px-2">
             <div class="h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center text-lg">📅</div>
             <h3 class="font-bold text-xl text-gray-800">Jurnal Makanan</h3>
         </div>
         
-        <div id="historyContainer" class="space-y-8 pb-20">
-            <div class="animate-pulse space-y-4">
-                <div class="h-64 bg-gray-200 rounded-3xl"></div>
+        <div id="historyContainer" class="space-y-6 pb-20">
+            <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 h-20 flex items-center justify-center">
+                <p class="text-gray-400 text-sm">Memuat data...</p>
             </div>
         </div>
 
@@ -102,18 +132,20 @@
         const USER_ID = localStorage.getItem('user_id');
 
         if (!USER_ID) window.location.href = 'login.html';
+        function logout() { localStorage.clear(); window.location.href = 'login.html'; }
 
         document.addEventListener('DOMContentLoaded', () => {
             loadProfile();
+            loadLifestyleStats(); 
             loadHistory();
+            loadWeightChart();
         });
 
-        // A. Load Data Diri
+        // 1. Load Profile
         async function loadProfile() {
             try {
                 const res = await fetch(`${API_URL}/user-profile?user_id=${USER_ID}`);
                 const json = await res.json();
-                
                 if(res.status === 200) {
                     const data = json.data;
                     document.getElementById('profName').innerText = data.username;
@@ -126,24 +158,100 @@
             } catch (e) { console.error(e); }
         }
 
-        // B. Load & Grouping History
+        // 2. Load Lifestyle Stats (UPDATE: Nama Olahraga & Kalori)
+        async function loadLifestyleStats() {
+            try {
+                const res = await fetch(`${API_URL}/lifestyle?user_id=${USER_ID}`);
+                const data = await res.json();
+                
+                // Isi ke HTML
+                document.getElementById('statWater').innerText = data.water;
+                document.getElementById('statSport').innerText = data.exercise;
+                
+                // Jika kalori masih undefined, berarti server belum direstart, tampilkan 0 dulu
+                document.getElementById('statCal').innerText = data.calories || 0; 
+                
+                // Nama Olahraga (Jika ada)
+                document.getElementById('statSportType').innerText = data.last_type || '-';
+                
+            } catch (e) { console.error(e); }
+        }
+
+        // 3. Update Berat
+        async function editWeight() {
+            const { value: weight } = await Swal.fire({
+                title: 'Update Berat Badan',
+                input: 'number',
+                inputLabel: 'Masukkan berat badan terkini (kg)',
+                inputPlaceholder: 'Contoh: 70.5',
+                showCancelButton: true,
+                confirmButtonText: 'Simpan',
+                confirmButtonColor: '#10B981',
+                customClass: { popup: 'rounded-3xl', confirmButton: 'rounded-xl', cancelButton: 'rounded-xl' }
+            });
+
+            if (weight) {
+                await fetch(`${API_URL}/update-weight`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: USER_ID, new_weight: weight })
+                });
+                const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, timerProgressBar: true });
+                Toast.fire({ icon: 'success', title: 'Berat badan diperbarui!' });
+                
+                loadProfile();
+                loadWeightChart(); 
+            }
+        }
+
+        // 4. Load Chart
+        async function loadWeightChart() {
+            const res = await fetch(`${API_URL}/weight-history?user_id=${USER_ID}`);
+            const json = await res.json();
+            
+            const labels = json.results.map(item => item.date_label);
+            const data = json.results.map(item => item.weight);
+
+            const ctx = document.getElementById('weightChart').getContext('2d');
+            
+            if(window.myChart) window.myChart.destroy(); 
+
+            window.myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Berat Badan (kg)',
+                        data: data,
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#059669',
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: false, grid: { borderDash: [5, 5] } }, x: { grid: { display: false } } }
+                }
+            });
+        }
+
+        // 5. Load History
         async function loadHistory() {
             try {
                 const res = await fetch(`${API_URL}/history-all?user_id=${USER_ID}`);
                 const json = await res.json();
                 const logs = json.results;
                 const container = document.getElementById('historyContainer');
-                
                 container.innerHTML = '';
 
                 if(logs.length === 0) {
-                    container.innerHTML = `
-                        <div class="text-center py-16 bg-white/95 rounded-3xl shadow-sm border border-gray-100 backdrop-blur-sm">
-                            <img src="https://cdn-icons-png.flaticon.com/512/7486/7486747.png" class="w-24 mx-auto mb-4 grayscale opacity-50">
-                            <p class="text-gray-500 font-medium">Belum ada riwayat makan.</p>
-                            <p class="text-sm text-gray-400">Mulai catat makananmu di dashboard.</p>
-                        </div>
-                    `;
+                    container.innerHTML = `<div class="text-center py-10 opacity-50 bg-white/50 rounded-3xl border border-dashed border-gray-300"><p>Belum ada riwayat makan.</p></div>`;
                     return;
                 }
 
@@ -153,63 +261,47 @@
                 logs.forEach(log => {
                     const dateObj = new Date(log.date_log);
                     const dateKey = dateObj.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-                    
                     const isToday = dateObj.toLocaleDateString('id-ID') === today;
                     const displayKey = isToday ? `Hari Ini (${dateKey})` : dateKey;
 
-                    if (!grouped[displayKey]) {
-                        grouped[displayKey] = { items: [], totalGula: 0, totalKal: 0 };
-                    }
+                    if (!grouped[displayKey]) grouped[displayKey] = { items: [], totalGula: 0, totalKal: 0 };
                     grouped[displayKey].items.push(log);
                     grouped[displayKey].totalGula += log.sugar_intake;
                     grouped[displayKey].totalKal += (log.calories_intake || 0);
                 });
 
-                // Render HTML
                 Object.keys(grouped).forEach(dateLabel => {
                     const dayData = grouped[dateLabel];
                     const isDanger = dayData.totalGula > 50; 
-                    
-                    const headerBg = isDanger ? 'bg-red-50' : 'bg-emerald-50';
-                    const titleColor = isDanger ? 'text-red-700' : 'text-emerald-700';
-                    const gulaBadgeBg = isDanger ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700';
-                    const borderColor = isDanger ? 'border-red-200' : 'border-emerald-200';
+                    const headerClass = isDanger ? 'bg-red-50 text-red-800' : 'bg-emerald-50 text-emerald-800';
 
                     let htmlContent = `
-                        <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-lg overflow-hidden border ${borderColor}">
-                            <div class="${headerBg} px-6 py-4 flex justify-between items-center">
+                        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                            <div class="${headerClass} px-6 py-4 flex justify-between items-center border-b border-gray-100">
                                 <div>
-                                    <h4 class="font-bold ${titleColor} capitalize text-lg">${dateLabel}</h4>
-                                    <span class="text-xs text-gray-500 font-medium">${dayData.items.length} kali makan</span>
+                                    <h4 class="font-bold text-sm md:text-base">${dateLabel}</h4>
+                                    <span class="text-[10px] opacity-70">${dayData.items.length} kali makan</span>
                                 </div>
-                                <div class="text-right flex flex-col items-end gap-1">
-                                    <span class="px-3 py-1 rounded-full font-bold text-sm ${gulaBadgeBg}">
-                                        🍬 ${dayData.totalGula.toFixed(1)}g
-                                    </span>
-                                    <span class="px-3 py-1 rounded-full font-bold text-xs bg-blue-100 text-blue-700">
-                                        🔥 ${dayData.totalKal} kkal
-                                    </span>
-                                </div>
+                                <span class="px-3 py-1 rounded-full font-bold text-xs bg-white shadow-sm">🍬 ${dayData.totalGula.toFixed(1)}g</span>
                             </div>
-                            
-                            <div class="p-4 space-y-2">
+                            <div class="p-2">
                     `;
 
                     dayData.items.forEach(item => {
-                        const itemGulaColor = item.sugar_intake > 20 ? 'bg-red-500' : 'bg-emerald-500';
+                        const timeString = item.log_time ? item.log_time.substring(0, 5) : "--:--"; 
                         htmlContent += `
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-2xl hover:bg-white hover:shadow-md transition border border-transparent hover:border-gray-100">
+                            <div class="flex justify-between items-center p-3 hover:bg-gray-50 rounded-2xl transition">
                                 <div class="flex items-center gap-3">
-                                    <div class="h-2 w-2 rounded-full ${itemGulaColor} shadow-sm"></div>
-                                    <span class="text-gray-700 font-bold text-sm">${item.food_name}</span>
+                                    <div class="h-2 w-2 rounded-full bg-emerald-400"></div>
+                                    <div>
+                                        <span class="text-gray-800 font-bold text-sm block">${item.food_name}</span>
+                                        <span class="text-[10px] text-gray-400 font-medium flex items-center gap-1">
+                                            🕒 Pukul ${timeString} • ${item.portion_amount} porsi
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="flex gap-2 text-right">
-                                    <div class="bg-white border border-gray-100 px-2 py-1 rounded-lg text-xs text-gray-600 font-bold min-w-[60px] text-center shadow-sm">
-                                        ${item.sugar_intake}g
-                                    </div>
-                                    <div class="bg-blue-50 border border-blue-100 px-2 py-1 rounded-lg text-xs text-blue-600 font-bold min-w-[70px] text-center shadow-sm">
-                                        ${item.calories_intake || 0} kal
-                                    </div>
+                                <div class="text-right">
+                                    <span class="text-xs font-bold text-gray-500 bg-gray-100 px-2 py-1 rounded-lg">${item.sugar_intake}g</span>
                                 </div>
                             </div>
                         `;
